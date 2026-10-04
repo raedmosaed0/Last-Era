@@ -1,0 +1,3028 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Last Era RP</title>
+  <link rel="icon" type="image/png" href="Logo/LE.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0f;
+      --surface: #111115;
+      --card-bg: #16161a;
+      --border: rgba(255,255,255,0.07);
+      --gold: #d4a843;
+      --gold2: #c49535;
+      --text: #e8e3db;
+      --muted: #888580;
+      --nav-h: 68px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+
+
+    /* ═══════════════ BACKGROUND LAYERS ═══════════════ */
+    .bg-layer {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      min-height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 45% at 90% 100%, rgba(196,149,53,0.32) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 5%  100%, rgba(212,168,67,0.26) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 35% at 50% 100%, rgba(212,168,67,0.18) 0%, transparent 55%),
+        var(--bg);
+    }
+
+    /* Arabic navbar — logo right, links center, cta left */
+    .navbar {
+      direction: rtl;
+      grid-template-columns: auto 1fr auto;
+    }
+    .navbar-logo { grid-column: 1; justify-self: start; }
+    .navbar-links { grid-column: 2; direction: rtl; flex-direction: row; }
+    .navbar-cta   { grid-column: 3; justify-self: end; }
+
+    a { text-decoration: none; }
+
+    /* ═══════════════ NAV ═══════════════ */
+    .navbar {
+      position: fixed;
+      top: 12px; left: 50%; right: auto;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1200px;
+      height: var(--nav-h);
+      z-index: 999;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 20px;
+      background: rgba(18,18,22,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 16px;
+      gap: 16px;
+    }
+
+    .navbar-logo {
+      grid-column: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-logo img {
+      height: 72px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(212,168,67,0.25)) drop-shadow(0 0 22px rgba(212,168,67,0.13));
+    }
+
+    .navbar-logo span { color: var(--gold); }
+
+    .navbar-links {
+      grid-column: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      list-style: none;
+      margin-top: -8px;
+    }
+
+    .navbar-links a {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color 0.25s, background 0.25s, box-shadow 0.25s, text-shadow 0.25s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .navbar-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 168, 67, 0.10);
+      box-shadow:
+        0 0 10px rgba(212, 168, 67, 0.15),
+        inset 0 0 10px rgba(212, 168, 67, 0.05);
+      text-shadow: 0 0 8px rgba(212, 168, 67, 0.45);
+    }
+
+    .navbar-links a.active {
+      color: #0c0c0f;
+      background: var(--gold);
+      font-weight: 700;
+      box-shadow: 0 0 14px rgba(212, 168, 67, 0.4);
+    }
+
+    .navbar-links a::after { display: none; }
+
+    /* ═══════════════ PAGES (SPA-style view switching) ═══════════════ */
+    .page {
+      display: block;
+      position: relative;
+      z-index: 1;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+    }
+    .page.active {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      height: auto;
+      overflow: visible;
+      animation: fadeIn 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .navbar-cta {
+      grid-column: 3;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin-top: -8px;
+    }
+
+    .navbar-cta .btn {
+      padding: 9px 20px;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ═══════════════ HERO ═══════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 60px) 5% 80px;
+      overflow: hidden;
+    }
+
+    /* Video background */
+    .video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .video-bg video {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 100%; height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: 0.35;
+      filter: brightness(0.85) saturate(1.1);
+      pointer-events: none;
+    }
+
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(12,12,15,0.3) 0%,
+        rgba(12,12,15,0.1) 40%,
+        rgba(12,12,15,0.7) 80%,
+        rgba(12,12,15,1) 100%);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 820px; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 100px;
+      padding: 6px 20px;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 22px;
+      text-shadow:
+        0 0 25px rgba(255,255,255,0.4),
+        0 0 70px rgba(255,255,255,0.15),
+        0 0 120px rgba(255,255,255,0.08);
+    }
+
+    .hero h1 .gold {
+      color: var(--gold);
+      text-shadow:
+        0 0 20px rgba(212,168,67,0.5),
+        0 0 50px rgba(212,168,67,0.3),
+        0 0 100px rgba(212,168,67,0.15),
+        0 0 160px rgba(212,168,67,0.08);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 580px;
+      margin: 0 auto 42px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 30px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      border: none;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #0c0c0f;
+      box-shadow: 0 4px 20px rgba(212,168,67,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold2);
+      box-shadow: 0 6px 28px rgba(212,168,67,0.45);
+    }
+
+    .btn-ghost {
+      background: #16161c;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .btn-discord {
+      background: linear-gradient(180deg, #2b2f6e 0%, #1a1d4d 100%);
+      color: #b9c0ff;
+      border: 1.5px solid rgba(120,130,255,0.55);
+      border-radius: 8px;
+      box-shadow:
+        0 0 0 1px rgba(88,101,242,0.15),
+        0 4px 18px rgba(40,30,120,0.5),
+        inset 0 0 14px rgba(88,101,242,0.12);
+      transition: transform 0.15s, box-shadow 0.25s, background 0.25s, border-color 0.25s, color 0.25s;
+      direction: ltr;
+    }
+
+    .btn-discord svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      fill: #b9c0ff;
+      transition: fill 0.25s;
+      order: -1;
+    }
+
+    .btn-discord:hover {
+      background: linear-gradient(180deg, #363b85 0%, #20245e 100%);
+      border-color: rgba(140,150,255,0.85);
+      color: #d6dbff;
+      box-shadow:
+        0 0 0 1px rgba(88,101,242,0.3),
+        0 6px 26px rgba(60,50,160,0.65),
+        0 0 24px rgba(88,101,242,0.35),
+        inset 0 0 18px rgba(88,101,242,0.18);
+    }
+
+    .btn-discord:hover svg { fill: #d6dbff; }
+
+    /* ── Stats ── */
+    .hero-stats {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 72px;
+      max-width: 900px;
+      margin-inline: auto;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.015);
+      padding: 40px 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .stat:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      inset-inline-end: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 56px;
+      background: var(--border);
+    }
+
+    .stat-num {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 5px;
+      letter-spacing: 0.04em;
+    }
+
+    .stat-num.stat-glow {
+      text-shadow:
+        0 0 8px rgba(212, 168, 67, 0.55),
+        0 0 20px rgba(212, 168, 67, 0.3),
+        0 0 40px rgba(212, 168, 67, 0.12);
+    }
+
+    /* ═══════════════ ABOUT ═══════════════ */
+    .about-section {
+      padding: 110px 6%;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 90px;
+      align-items: center;
+    }
+
+    .about-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .about-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .about-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 18px 0 24px;
+    }
+
+    .about-text {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .about-text + .about-text { margin-top: 16px; }
+
+    .about-img-wrap {
+      position: relative;
+    }
+
+    .about-img {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+      display: block;
+    }
+
+    .about-img-glow {
+      position: absolute;
+      inset: -1px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.15), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ═══════════════ CARDS ═══════════════ */
+    .cards-section {
+      background: var(--surface);
+      padding: 100px 6%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      direction: rtl;
+    }
+
+    .cards-inner { max-width: 1280px; margin: 0 auto; }
+
+    .cards-hdr {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .cards-hdr .section-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .cards-hdr h2 {
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .cards-hdr .sep {
+      width: 40px; height: 2px;
+      background: var(--gold);
+      margin: 16px auto 0;
+    }
+
+    .cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+    .card:hover {
+      border-color: rgba(212,168,67,0.4);
+      transform: translateY(-5px);
+      box-shadow:
+        0 16px 40px rgba(0,0,0,0.4),
+        0 0 20px rgba(212,168,67,0.15),
+        0 0 60px rgba(212,168,67,0.08),
+        inset 0 0 30px rgba(212,168,67,0.03);
+    }
+
+    .card-icon {
+      width: 64px; height: 64px;
+      border-radius: 12px;
+      background: rgba(212,168,67,0.1);
+      border: 1px solid rgba(212,168,67,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 22px;
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .card:hover .card-icon {
+      background: rgba(212,168,67,0.18);
+      border-color: rgba(212,168,67,0.45);
+      box-shadow: 0 0 18px rgba(212,168,67,0.25);
+    }
+
+    .card-icon svg {
+      width: 28px; height: 28px;
+      fill: none; stroke: var(--gold); stroke-width: 1.8;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .card h3 {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 0.91rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* Support page cards: bolder title, more visible/bold body text */
+    #page-support .card h3 {
+      font-weight: 900;
+      margin-top: -6px;
+    }
+
+    #page-support .card p {
+      color: #b3aea6;
+      font-weight: 600;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 24px;
+      padding: 10px 22px;
+      border-radius: 7px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      background: rgba(212,168,67,0.1);
+      color: var(--gold);
+      border: 1px solid rgba(212,168,67,0.25);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .card-btn:hover {
+      background: rgba(212,168,67,0.18);
+      border-color: rgba(212,168,67,0.5);
+    }
+
+    /* ═══════════════ CREATORS HERO ═══════════════ */
+    .creators-hero {
+      position: relative;
+      padding: 100px 6% 50px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .creators-hero-inner {
+      display: flex;
+      justify-content: center;
+    }
+
+    .creators-text {
+      text-align: center;
+      max-width: 760px;
+    }
+
+    .creators-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 100px;
+      padding: 7px 22px;
+      margin-bottom: 28px;
+    }
+
+    .creators-text h1 {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.18;
+      margin-bottom: 22px;
+      text-shadow:
+        0 0 25px rgba(255,255,255,0.25),
+        0 0 70px rgba(255,255,255,0.1);
+    }
+
+    .creators-text h1 .gold {
+      color: var(--gold);
+      font-size: 1em;
+      text-shadow:
+        0 0 20px rgba(212,168,67,0.5),
+        0 0 60px rgba(212,168,67,0.25);
+    }
+
+    .creators-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.9;
+      max-width: 540px;
+      margin: 0 auto 32px;
+    }
+
+    .creators-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 36px;
+      justify-content: center;
+    }
+
+    .creator-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .creator-badge .gold { color: var(--gold); font-weight: 800; }
+
+    #creatorsCount { font-size: 1.25em; }
+
+    .creators-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ═══════════════ FILTER TABS ═══════════════ */
+    .filter-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 30px 6% 60px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+
+    .filter-btn:hover {
+      border-color: rgba(212,168,67,0.4);
+      color: var(--text);
+    }
+
+    .filter-btn.active {
+      background: var(--gold);
+      color: #0c0c0f;
+      border-color: var(--gold);
+      box-shadow: 0 6px 22px rgba(212,168,67,0.3);
+    }
+
+    /* ═══════════════ KICK STREAMERS ═══════════════ */
+    .streamers-section {
+      padding: 0 6% 100px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .streamers-hdr {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .streamers-hdr .section-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .streamers-hdr h2 {
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .streamers-hdr .sep {
+      width: 120px; height: 3px;
+      background: var(--gold);
+      margin: 16px auto 0;
+      border-radius: 100px;
+      box-shadow:
+        0 0 8px rgba(212,168,67,0.8),
+        0 0 20px rgba(212,168,67,0.5),
+        0 0 40px rgba(212,168,67,0.25);
+    }
+
+  .streamers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px; 
+}
+    .streamer-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid rgba(212, 168, 67, 0.18);
+      border-radius: 14px;
+      padding: 32px 24px;
+      text-align: center;
+      overflow: hidden;
+      transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+
+    /* spotlight من فوق */
+    .streamer-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 100px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 67, 0.28) 0%, transparent 75%);
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .streamer-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 168, 67, 0.45);
+      box-shadow:
+        0 0 0 1px rgba(212, 168, 67, 0.1),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(212, 168, 67, 0.15),
+        0 0 80px rgba(212, 168, 67, 0.07);
+    }
+
+    .streamer-card:hover::before {
+      opacity: 1;
+    }
+
+    .streamer-card:hover .streamer-avatar {
+      border-color: rgba(212, 168, 67, 0.7);
+      box-shadow: 0 0 16px rgba(212, 168, 67, 0.35);
+    }
+
+    .streamer-card.is-live::before {
+      background: radial-gradient(ellipse at top, rgba(220, 38, 38, 0.22) 0%, transparent 75%);
+      opacity: 1;
+    }
+    .streamer-card.is-live {
+      border-color: rgba(220,38,38,0.55);
+      box-shadow: 0 0 0 1px rgba(220,38,38,0.15), 0 16px 45px rgba(220,38,38,0.25);
+      animation: live-pulse 2.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes live-pulse {
+      from { box-shadow: 0 0 0 1px rgba(220,38,38,0.15), 0 10px 30px rgba(220,38,38,0.18); }
+      to   { box-shadow: 0 0 0 1px rgba(220,38,38,0.35), 0 18px 50px rgba(220,38,38,0.4); }
+    }
+
+    .streamer-avatar-wrap {
+      position: relative;
+      width: 130px; height: 130px;
+      margin: 0 auto 18px;
+    }
+
+.streamer-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  padding: 3px;
+  border: 2px solid var(--gold);
+  background: var(--card-bg);
+  box-shadow: 0 0 15px rgba(212, 168, 67, 0.3);
+  transition: all 0.35s ease;
+}
+
+.streamer-card:hover .streamer-avatar {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.6);
+}
+
+.streamer-card.is-live .streamer-avatar {
+  border-color: #dc2626;
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+}
+
+.streamer-avatar.avatar-fallback {
+  object-fit: contain;
+  padding: 26px;
+  background: #0c0c0c;
+}
+
+    /* Red LIVE badge - hidden by default, shown via JS when the streamer goes live */
+    .live-badge {
+      position: absolute;
+      top: -4px; left: -4px;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: #dc2626;
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 100px;
+      box-shadow: 0 0 14px rgba(220,38,38,0.65);
+    }
+
+    .live-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      animation: live-dot 1.3s infinite;
+    }
+
+    @keyframes live-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+
+    .streamer-card.is-live .live-badge {
+      display: flex;
+    }
+
+    /* Soft green glow bleeding in from the card's top-left corner —
+       sits behind the logo and fades smoothly into the card so it
+       reads as ambient light, not a placed effect. */
+    .streamer-kick-glow {
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 170px;
+      height: 170px;
+      background: radial-gradient(circle at top left, rgba(83, 252, 24, 0.16) 0%, rgba(83, 252, 24, 0.06) 40%, transparent 72%);
+      z-index: 1;
+      pointer-events: none;
+      filter: blur(8px);
+    }
+
+    /* Kick logo — small badge pinned to the top-left corner of the card */
+    .streamer-kick-logo {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 56px;
+      height: auto;
+      object-fit: contain;
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 0 4px rgba(83, 252, 24, 0.22)) drop-shadow(0 0 10px rgba(83, 252, 24, 0.12));
+    }
+
+    .streamer-name {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    /* Clean status line directly under the name — no badge */
+    .streamer-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+
+    /* Live state: red dot + red text */
+    .streamer-card.is-live .streamer-status {
+      color: #ff6b6b;
+    }
+
+    .streamer-card.is-live .status-dot {
+      background: #dc2626;
+      box-shadow: 0 0 8px rgba(220,38,38,0.85);
+    }
+
+    /* Followers pill badge — sits where the old status badge was */
+    .streamer-followers {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 20px;
+      padding: 5px 16px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+
+    .streamer-followers .followers-icon {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+
+    .streamer-watch-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      font-family: 'Cairo', sans-serif;
+      background: rgba(212,168,67,0.08);
+      color: var(--gold);
+      border: 1px solid rgba(212,168,67,0.35);
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 1;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
+    }
+
+    /* Offline button hover effect */
+    .streamer-watch-btn.offline-btn:hover {
+      background: rgba(212,168,67,0.15);
+      border-color: rgba(212,168,67,0.6);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* Watch button becomes active/clickable only when the streamer is LIVE */
+    .streamer-card.is-live .streamer-watch-btn {
+      background: #991b1b;
+      color: #fff;
+      border-color: #991b1b;
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 1;
+      box-shadow: 0 4px 18px rgba(153,27,27,0.4);
+    }
+
+    .streamer-card.is-live .streamer-watch-btn:hover {
+      background: #7f1d1d;
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(153,27,27,0.6), 0 0 40px rgba(153,27,27,0.3);
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 60px 0;
+      grid-column: 1 / -1;
+    }
+
+    /* ═══════════════ FOOTER ═══════════════ */
+    footer {
+      background: var(--surface);
+      padding: 70px 6% 36px;
+    }
+
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid var(--border);
+      direction: ltr;
+    }
+
+    .footer-brand-logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .footer-brand-logo span { color: var(--gold); }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li + li { margin-top: 12px; }
+
+    .footer-col a {
+      color: var(--muted);
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--text); }
+
+    .footer-bottom {
+      padding-top: 28px;
+      text-align: center;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    /* ═══════════════ RESPONSIVE ═══════════════ */
+    /* Discord profile */
+    .profile-section {
+      min-height: 100vh;
+      padding: calc(var(--nav-h) + 60px) 5% 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-shell {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .profile-hero {
+      border: 1px solid rgba(212,168,67,0.25);
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(212,168,67,0.13), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 34px;
+      align-items: center;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+    }
+
+    .profile-avatar-ring {
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, var(--gold), #7d6122);
+      box-shadow: 0 0 34px rgba(212,168,67,0.28);
+    }
+
+    .profile-avatar-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #111115;
+      background: #0c0c0f;
+      display: block;
+    }
+
+    .profile-kicker {
+      color: var(--gold);
+      font-size: 0.86rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .profile-name {
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      line-height: 1;
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .profile-id {
+      color: var(--muted);
+      font-size: 0.95rem;
+      direction: ltr;
+      text-align: right;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .copy-id-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 8px;
+      background: rgba(212,168,67,0.08);
+      color: var(--gold);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-note {
+      color: #c8c2b8;
+      margin: 18px 0 22px;
+      font-size: 0.96rem;
+    }
+
+    .profile-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 18px;
+      margin-top: 18px;
+      align-items: stretch;
+    }
+
+    .profile-panel {
+      border: 1px solid rgba(212,168,67,0.18);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+      padding: 28px;
+    }
+
+    .profile-panel-label {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .profile-panel-title {
+      color: #fff;
+      font-size: 1.55rem;
+      line-height: 1.2;
+      margin-bottom: 22px;
+    }
+
+    .account-status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .account-status-item {
+      min-height: 110px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.025);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: right;
+    }
+
+    .account-status-item svg {
+      width: 22px;
+      height: 22px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .account-status-item span {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .account-status-item strong {
+      color: #fff;
+      font-size: 0.95rem;
+      overflow-wrap: anywhere;
+    }
+
+    .quick-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .quick-link {
+      min-height: 54px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.025);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-weight: 700;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+
+    .quick-link:hover {
+      border-color: rgba(212,168,67,0.45);
+      background: rgba(212,168,67,0.08);
+      color: var(--gold);
+    }
+
+    .quick-link svg {
+      width: 26px;
+      height: 26px;
+      background: var(--gold);
+      color: #0c0c0f;
+      border-radius: 7px;
+      padding: 5px;
+      flex-shrink: 0;
+    }
+
+    .profile-empty {
+      text-align: center;
+      max-width: 680px;
+      margin: 70px auto 0;
+      border: 1px solid rgba(212,168,67,0.22);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.025);
+      padding: 44px 28px;
+    }
+
+    .profile-empty h1 {
+      color: #fff;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .profile-empty p {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .profile-hidden { display: none !important; }
+
+    @media (max-width: 960px) {
+      .about-grid { grid-template-columns: 1fr; gap: 50px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .streamers-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .profile-hero { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+      .profile-id { text-align: center; }
+      .profile-actions { justify-content: center; }
+      .profile-grid { grid-template-columns: 1fr; }
+      .account-status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .navbar-links {
+      grid-column: 2;
+      justify-self: center; display: none; }
+      .hero-stats {
+        flex-direction: column;
+        gap: 24px;
+        padding: 28px 24px;
+      }
+      .stat { padding: 0; }
+      .stat:not(:last-child)::after {
+        inset-inline-end: auto;
+        top: auto;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 1px;
+      }
+      .cards-grid { grid-template-columns: 1fr; }
+      .streamers-grid { grid-template-columns: 1fr; }
+      .profile-section { padding-inline: 18px; }
+      .profile-hero { padding: 28px 18px; }
+      .account-status-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+
+    #page-coming-soon.active ~ footer,
+    #page-rules.active ~ footer { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav class="navbar">
+    <a href="#" class="navbar-logo" data-page="home"><img src="Logo/LE.png" alt="Last Era" /></a>
+    <ul class="navbar-links">
+      <li><a href="#" class="active" data-page="home"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><polyline points="9 21 9 12 15 12 15 21"/></svg> الرئيسية</a></li>
+      <li><a href="#" data-page="rules"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg> القوانين</a></li>
+      <li><a href="#" data-page="coming-soon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> التقديم</a></li>
+      <li><a href="#" data-page="creators"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> صناع المحتوى</a></li>
+      <li><a href="#" data-page="support"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg> الدعم الفني</a></li>
+      <li><a href="https://last-era.tebex.io/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> المتجر</a></li>
+    </ul>
+    <div class="navbar-cta">
+      <a href="#" class="btn btn-primary" id="loginBtn" style="padding:7px 20px;">تسجيل الدخول</a>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE: HOME ══ -->
+  <div id="page-home" class="page active">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <!-- HTML5 Video background -->
+    <div class="video-bg">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="https://www.dropbox.com/scl/fi/on2u8w725k70skjbd2fy7/Loading-screen.mp4?rlkey=vmi90eddwcxg6bjf3cwub0t5v&st=x4s4fqc9&raw=1" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-veil"></div>
+
+    <div class="hero-content">
+      <h1>Last Era <span class="gold">RP</span></h1>
+
+      <p class="hero-desc">
+        مدينة عربية واقعية لتجربة رول بلاي منظمة، مجتمع نشط، قوانين واضحة، وصناع محتوى ينقلون لحظات Last Era يوميا.
+      </p>
+
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num stat-glow" id="discordMemberCount">0+</div>
+        <div class="stat-lbl">أعضاء الديسكورد</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num stat-glow">5+</div>
+        <div class="stat-lbl">صانع محتوى</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num stat-glow">24H</div>
+        <div class="stat-lbl">دعم وتنظيم</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══ -->
+  <section class="about-section">
+    <div class="about-grid">
+      <div>
+        <p class="about-tag">مجتمع Last Era</p>
+        <h2 class="about-title">من نحن؟</h2>
+        <div class="about-line"></div>
+        <p class="about-text">
+          Last Era هو عالم رول بلاي عربي متكامل مبني على الواقعية والتفاصيل الدقيقة، يوفر للاعبين بيئة منظمة تساعدهم على تطوير شخصياتهم وصناعة قصصهم بحرية داخل مدينة حيّة ومتوازنة.
+        </p>
+        <p class="about-text" style="margin-top:14px;">
+          نهدف لتجربة لعب سلسة وممتعة، فيها إدارة فعّالة، قوانين واضحة، ومجتمع يركز على الإبداع وتمثيل الواقع بأسلوب احترافي بدون فوضى أو خروج عن الجو العام.
+        </p>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;display:inline-block;">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;height:90%;border-radius:50%;background:radial-gradient(circle, rgba(212,168,67,0.60) 0%, rgba(212,168,67,0.22) 45%, transparent 75%);filter:blur(36px);z-index:0;"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:65%;height:65%;border-radius:50%;background:radial-gradient(circle, rgba(255,220,120,0.75) 0%, transparent 70%);filter:blur(20px);z-index:0;"></div>
+          <img src="Logo/logo.webp" alt="Last Era" style="position:relative;z-index:1;width:85%;max-width:420px;display:block;margin:0 auto;" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CARDS ══ -->
+  <section class="cards-section">
+    <div class="cards-inner">
+      <div class="cards-hdr">
+      </div>
+
+      <div class="cards-grid">
+        <!-- Discord -->
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" style="fill: var(--gold); stroke: none;">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </div>
+          <h3>Discord</h3>
+          <p>تابع آخر الأخبار والإعلانات والفعاليات الرسمية، وكن جزءًا من مجتمع Last Era عبر سيرفر الديسكورد.</p>
+          <a href="https://discord.gg/lerp" target="_blank" class="card-btn">الديسكورد</a>
+        </div>
+
+        <!-- Rules -->
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3>القوانين</h3>
+          <p> الاطلاع على القوانين يساعدك على فهم أنظمة المدينة والاستمتاع بتجربة أكثر احترافية.</p>
+          <a href="#" class="card-btn" data-page="rules">عرض القوانين</a>
+        </div>
+
+        <!-- Support -->
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3>الدعم</h3>
+          <p>فريق الدعم متاح 24/7 لتقديم المساعدة و ضمان أفضل تجربة ممكنة لك.</p>
+          <a href="#" class="card-btn" data-page="support">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div> <!-- /#page-home -->
+
+  <!-- ══ PAGE: CONTENT CREATORS ══ -->
+  <div id="page-creators" class="page" style="position:relative;overflow:hidden;">
+
+  <!-- ══ STREAMING WATERMARKS ══ -->
+  <div class="bg-layer"></div>
+
+  <!-- ميكروفون كبير — يسار أعلى -->
+  <svg style="position:absolute;top:6%;left:3%;width:180px;opacity:0.08;transform:rotate(-18deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="23"/>
+    <line x1="8" y1="23" x2="16" y2="23"/>
+  </svg>
+
+  <!-- كاميرا بث — يمين أعلى -->
+  <svg style="position:absolute;top:5%;right:4%;width:160px;opacity:0.08;transform:rotate(22deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="23 7 16 12 23 17 23 7"/>
+    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+  </svg>
+
+  <!-- هيدفون — يمين وسط -->
+  <svg style="position:absolute;top:40%;right:2%;width:120px;opacity:0.07;transform:rotate(10deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/>
+    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+  </svg>
+
+  <!-- كونترولر — يسار وسط -->
+  <svg style="position:absolute;top:45%;left:2%;width:120px;opacity:0.07;transform:rotate(-8deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="6" y1="12" x2="10" y2="12"/>
+    <line x1="8" y1="10" x2="8" y2="14"/>
+    <circle cx="15" cy="11" r="1" fill="#d4a843"/>
+    <circle cx="17" cy="13" r="1" fill="#d4a843"/>
+    <path d="M6 8h12l2 8H4L6 8z"/>
+    <path d="M10 8V6a2 2 0 0 1 4 0v2"/>
+  </svg>
+
+  <!-- ميكروفون صغير — يسار أسفل -->
+  <svg style="position:absolute;bottom:10%;left:3%;width:120px;opacity:0.07;transform:rotate(-10deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="23"/>
+    <line x1="8" y1="23" x2="16" y2="23"/>
+  </svg>
+
+  <!-- كاميرا صغيرة — يمين أسفل -->
+  <svg style="position:absolute;bottom:8%;right:4%;width:130px;opacity:0.065;transform:rotate(14deg);z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+    <circle cx="12" cy="13" r="4"/>
+  </svg>
+
+  <!-- هيدفون صغير — وسط أسفل -->
+  <svg style="position:absolute;bottom:4%;left:50%;transform:translateX(-50%) rotate(5deg);width:110px;opacity:0.055;z-index:0;pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/>
+    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+  </svg>
+
+  <!-- ══ SECTION SPOTLIGHT ══ -->
+  <div style="
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 420px;
+    background: radial-gradient(ellipse at 50% 40%, rgba(212,168,67,0.13) 0%, rgba(212,168,67,0.05) 50%, transparent 75%);
+    filter: blur(30px);
+    pointer-events: none;
+    z-index: 0;
+  "></div>
+
+  <!-- ══ CREATORS HERO ══ -->
+  <section class="creators-hero" style="position:relative;z-index:1;">
+    <div class="creators-hero-inner">
+
+      <!-- Text -->
+      <div class="creators-text">
+        <div class="creators-tag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> صناع المحتوى</div>
+        <h1> صناع محتوي <span class="gold">Last Era</span></h1>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ BADGES ABOVE DIVIDER ══ -->
+  <div style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;position:relative;z-index:2;">
+    <div class="creator-badge"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> روابط مباشرة</div>
+    <div class="creator-badge"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9c2.52 0 4.79 1.06 6.4 2.77"/><polyline points="21 3 21 8 16 8"/></svg> تحديث تلقائي</div>
+    <div class="creator-badge"><span class="gold" id="creatorsCount">0</span> صانع محتوى</div>
+    <!-- Kick Icon floating on the left of badges -->
+    <a href="https://kick.com" target="_blank" rel="noopener" class="kick-badge-float">
+      <img src="Logo/Kick.Icon.png" alt="Kick" class="kick-badge-icon" />
+      <div class="kick-badge-glow"></div>
+    </a>
+  </div>
+
+  <style>
+    .kick-badge-float {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      margin-right: 18px;
+    }
+    .kick-badge-icon {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+      animation: kickBadgeFloat 3.6s ease-in-out infinite;
+      filter: drop-shadow(0 0 3px rgba(83,252,24,0.13)) drop-shadow(0 0 7px rgba(83,252,24,0.07));
+    }
+    .kick-badge-glow {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 8px;
+      background: radial-gradient(ellipse at center, rgba(83,252,24,0.09) 0%, transparent 75%);
+      filter: blur(3px);
+      z-index: 1;
+      animation: kickBadgeGlow 3.6s ease-in-out infinite;
+    }
+    @keyframes kickBadgeFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-6px); }
+    }
+    @keyframes kickBadgeGlow {
+      0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+      50%       { opacity: 0.3;  transform: translateX(-50%) scaleX(0.7); }
+    }
+  </style>
+
+  <!-- ══ GLOW DIVIDER LINE ══ -->
+  <div class="glow-divider-wrap">
+    <div class="glow-divider-line">
+      <div class="glow-divider-pulse"></div>
+    </div>
+  </div>
+
+  <style>
+    .glow-divider-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5%;
+      margin: 10px 0 10px;
+    }
+
+    .glow-divider-line {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(180,130,30,0.15) 10%,
+        rgba(180,130,30,0.50) 35%,
+        rgba(196,149,53,0.85) 50%,
+        rgba(180,130,30,0.50) 65%,
+        rgba(180,130,30,0.15) 90%,
+        transparent 100%
+      );
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .glow-divider-line::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      filter: blur(6px);
+      opacity: 0.6;
+      border-radius: 2px;
+    }
+
+    .glow-divider-pulse {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(196,149,53,0.0) 0%,
+        rgba(196,149,53,0.95) 50%,
+        rgba(196,149,53,0.0) 100%
+      );
+      filter: blur(3px);
+      animation: glowSweep 2.8s ease-in-out infinite;
+      border-radius: 2px;
+    }
+
+    @keyframes glowSweep {
+      0%   { left: -130px; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { left: calc(100% + 10px); opacity: 0; }
+    }
+  </style>
+
+  <!-- ══ KICK STREAMERS ══ -->
+  <section class="streamers-section" id="streamers">
+    <div id="streamers-grid-anchor" class="streamers-hdr">
+      <div class="sep"></div>
+    </div>
+
+    <!-- Cards are generated automatically by JavaScript below from the "streamers" array -->
+    <div class="streamers-grid" id="streamersGrid"></div>
+  </section>
+
+  </div> <!-- /#page-creators -->
+
+  <!-- ══ PAGE: COMING SOON ══ -->
+  <div id="page-coming-soon" class="page">
+    <section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h) + 60px) 5% 80px;position:relative;overflow:hidden;">
+      <div class="bg-layer"></div>
+
+      <!-- ورقة تقديم كبيرة يسار أعلى -->
+      <svg style="position:absolute;top:10%;left:4%;width:180px;opacity:0.09;transform:rotate(-18deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+      </svg>
+      <!-- قلم يمين أعلى -->
+      <svg style="position:absolute;top:8%;right:5%;width:140px;opacity:0.08;transform:rotate(22deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+      </svg>
+      <!-- ورقة صغيرة يمين وسط -->
+      <svg style="position:absolute;top:45%;right:2%;width:100px;opacity:0.07;transform:rotate(10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <!-- قلم رصاص يسار أسفل -->
+      <svg style="position:absolute;bottom:12%;left:3%;width:120px;opacity:0.08;transform:rotate(-10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+      </svg>
+      <!-- مربع اختيار يمين أسفل -->
+      <svg style="position:absolute;bottom:18%;right:8%;width:90px;opacity:0.07;transform:rotate(15deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+      <!-- ورقة وسط أسفل -->
+      <svg style="position:absolute;bottom:5%;left:50%;transform:translateX(-50%) rotate(5deg);width:130px;opacity:0.06;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+
+      <div style="position:relative;z-index:2;">
+        <h1 style="font-size:clamp(2rem,6vw,4.5rem);font-weight:900;color:#fff;line-height:1.05;margin-bottom:24px;
+          text-shadow:0 0 25px rgba(255,255,255,0.3),0 0 70px rgba(255,255,255,0.1);">
+          Coming <span style="color:var(--gold);text-shadow:0 0 20px rgba(212,168,67,0.6),0 0 60px rgba(212,168,67,0.3);">Soon</span>
+        </h1>
+        <p style="font-size:1.05rem;color:var(--muted);line-height:1.85;max-width:480px;margin:0 auto 40px;">
+          التقديم مش متاح حالياً، ترقبوا الإعلان الرسمي على ديسكورد السيرفر.
+        </p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://discord.gg/Cwq7ydvTFr" target="_blank" class="btn btn-discord">انضم للديسكورد<svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+          <button class="btn btn-ghost" onclick="document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-home').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});">الرئيسية</button>
+        </div>
+      </div>
+    </section>
+  </div> <!-- /#page-coming-soon -->
+
+  <!-- ══ PAGE: RULES ══ -->
+  <div id="page-rules" class="page">
+    <section style="min-height:100vh;padding:calc(var(--nav-h) + 60px) 5% 100px;position:relative;overflow:hidden;">
+      <div class="bg-layer"></div>
+
+      <!-- درع يسار أعلى -->
+      <svg style="position:absolute;top:10%;left:4%;width:180px;opacity:0.09;transform:rotate(-18deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <!-- مطرقة قضاء يمين أعلى -->
+      <svg style="position:absolute;top:8%;right:5%;width:140px;opacity:0.08;transform:rotate(22deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6z"/>
+      </svg>
+      <!-- كتاب قوانين يمين وسط -->
+      <svg style="position:absolute;top:45%;right:2%;width:100px;opacity:0.07;transform:rotate(10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <!-- ميزان عدل يسار أسفل -->
+      <svg style="position:absolute;bottom:12%;left:3%;width:120px;opacity:0.08;transform:rotate(-10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="3" x2="12" y2="21"/><path d="M3 7l9-4 9 4"/><path d="M3 12l9 4 9-4"/><path d="M3 7c0 3.87 4.03 7 9 7s9-3.13 9-7"/><path d="M3 12c0 3.87 4.03 7 9 7s9-3.13 9-7"/>
+      </svg>
+      <!-- درع صغير يمين أسفل -->
+      <svg style="position:absolute;bottom:18%;right:8%;width:90px;opacity:0.07;transform:rotate(15deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+      </svg>
+      <!-- كتاب وسط أسفل -->
+      <svg style="position:absolute;bottom:5%;left:50%;transform:translateX(-50%) rotate(5deg);width:130px;opacity:0.06;" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/>
+      </svg>
+
+      <!-- ══ RULES HEADER ══ -->
+      <div style="position:relative;z-index:2;text-align:center;margin-bottom:56px;">
+        <h1 style="font-size:clamp(2.2rem,5.5vw,4rem);font-weight:900;color:#fff;line-height:1.1;display:inline-flex;align-items:center;gap:16px;
+          font-family: 'Cairo', sans-serif;
+          text-shadow:0 0 25px rgba(255,255,255,0.3),0 0 70px rgba(255,255,255,0.1);">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+            style="filter:drop-shadow(0 0 10px rgba(212,168,67,0.6));flex-shrink:0;">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          قوانين السيرفر
+        </h1>
+        <p style="font-size:1rem;color:var(--muted);margin-top:14px;line-height:1.8;">
+          اطلع على قوانين السيرفر ومصطلحات الرول بلاي
+        </p>
+      </div>
+
+      <!-- ══ ACCORDION RULES ══ -->
+      <div style="position:relative;z-index:2;max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px;" id="rulesAccordion">
+
+        <!-- القوانين العامة -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>القوانين العامة</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>يمنع التواصل الغير شرعي — Meta Gaming.</li>
+              <li>يجب بناء كاركتر خاص فيك وتقمصه بشكل ممتاز بالأقوال والأفعال.</li>
+              <li>يمنع الخروج عن الرول بلاي داخل السيرفر لأي سبب من الأسباب.</li>
+              <li>امر /ooc يستخدم للمشاكل الخارجة عن الرول بلاي فقط.</li>
+              <li>يمنع أي اتفاق خارج الرول بلاي.</li>
+              <li>يجب تشغيل برنامج التصوير مع الصوت أثناء اللعب (20د).</li>
+              <li>يمنع التدخل في سيناريو قائم.</li>
+              <li>يجب احترام الجميع والتعامل معهم على ما يقتضيه الواقع ويمنع إهانتهم أو استفزازهم بطرق غير أخلاقية ويمنع الكلام الجنسي.</li>
+              <li>يمنع استخدام القلتشات أو الثغرات البرمجية والهاك وعقوبتها باند نهائي.</li>
+              <li>يمنع استخدام أي ملف يضر بيئة اللعب.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- قوانين الحياة الواقعية العامة -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>قوانين الحياة الواقعية العامة</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>يمنع إهانة الشخص المسقط بأي حال من الأحوال.</li>
+              <li>يمنع تقليد ملابس الشرطة والإسعاف.</li>
+              <li>في حال أُسقطت يحق لك التحدث عن الألم فقط ويمنع التحدث بشكل طبيعي.</li>
+              <li>لا يحق لك تحريك الجثة إلا بغرض المساعدة.</li>
+              <li>التعرف على الشخص يكون عن طريق الشكل ويمنع التعرف عليه من صوته.</li>
+              <li>يجب عليك أن تضع سلامتك وسلامة زميلك في المقام الأول عند التعرض لأي تهديد، وخاصة في الحالات التي لا تملك فيها القدرة على المقاومة.</li>
+              <li>يمنع استخدام أمر ME/ للتحدث في حال الإسقاط.</li>
+              <li>يجب عليك أخذ جميع المواقف الجدية بشكل جدي مثل: مواجهة عسكري أو محامي أو مسعف.</li>
+              <li>ترابط الشخصية الأولى مع الثانية ممنوع.</li>
+              <li>الشخصنة ممنوعة منعاً باتاً بجميع أنواعها.</li>
+              <li>يمنع التعرف على الأشخاص من خلال إعطاء أيتم أو الأيدي منعاً باتاً.</li>
+              <li>يمنع منعاً باتاً لبس عدة الغوص خارج البحر.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- كومبات لوج -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>كومبات لوج</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>يمنع الخروج من اللعبة أثناء تفاعل رول بلاي نشط.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- القتل العشوائي / استخدام المركبات كسلاح -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>القتل العشوائي / استخدام المركبات كسلاح</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>ممنوع استخدام المركبة كسلاح — VDM.</li>
+              <li>ممنوع القتل العشوائي — RDM.</li>
+              <li>يمنع القفز بالمركبة قفزات انتحارية.</li>
+              <li>في حال فقدان أربع إطارات من المركبة يمنع استكمال قيادتها.</li>
+              <li>يمنع منعاً باتاً أن يطلق السائق النار.</li>
+              <li>يمنع حمل اللاعب أثناء ركوب المركبة وأيضاً أثناء وجود إطلاق نار (فايت).</li>
+              <li>يمنع سرقة أو استعمال الطائرات.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- قانون الحياة الجديدة -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>قانون الحياة الجديدة</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>في حال تحللت يجب عليك نسيان المتسبب بموتك.</li>
+              <li>في حال تم إسقاطك في حالة يمنع منعاً باتاً الرجوع إلى موقع الحالة.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- قوانين الموظفين والمناطق الآمنة -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>قوانين الموظفين والمناطق الآمنة</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li>يمنع على المسعفين التواجد في مكان طلق نار إلا بعد التأكد أن المكان خالٍ.</li>
+              <li>يمنع نقل المسقطين أو تعبئة بياناتهم في وجود المسعفين.</li>
+              <li>يمنع خطف أو التعرض لكل من: المسعفين - المحامين - العقاري - FBI - الإعلاميين.</li>
+              <li>يمنع سرقة أغراض الشرطة أو المسعفين.</li>
+              <li>يمنع التربص للموظفين الحكوميين وانتظار الشخص عند مقر الوظيفة أو نقاط التوقف.</li>
+              <li>يمنع إزعاج موظفين المطاعم والورش والعساكر والمسعفين في أماكن العمل أو التلفظ عليهم.</li>
+              <li>يمنع الاحتماء والاستفزاز بالمناطق الآمنة، وفي حال الاحتماء يحق لك استكمال السيناريو في حالة الخطف فقط.</li>
+              <li>يمنع بيع الممنوعات أو التلميح لها في المناطق الآمنة أو نشرها على مواقع التواصل الاجتماعي.</li>
+              <li>المستشفى هي المنطقة الآمنة الوحيدة ويمنع التجمع عندها أو خطف أي مواطن فيها.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- مصطلحات الرول بلاي -->
+        <div class="rule-item">
+          <button class="rule-btn" onclick="toggleRule(this)">
+            <span>مصطلحات الرول بلاي</span>
+            <span class="rule-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="rule-body">
+            <div class="rule-body-inner">
+            <ul class="rule-list">
+              <li><strong style="color:var(--gold)">IC (In Character)</strong> — داخل الشخصية.</li>
+              <li><strong style="color:var(--gold)">OOC (Out of Character)</strong> — خارج الشخصية.</li>
+              <li><strong style="color:var(--gold)">RDM</strong> — القتل العشوائي بدون سبب.</li>
+              <li><strong style="color:var(--gold)">VDM</strong> — الدهس بالمركبة بدون سبب.</li>
+              <li><strong style="color:var(--gold)">NLR</strong> — قانون الحياة الجديدة.</li>
+              <li><strong style="color:var(--gold)">FRP</strong> — عدم احترام سيناريو الرول بلاي.</li>
+              <li><strong style="color:var(--gold)">Metagaming</strong> — استخدام معلومات OOC داخل الرول بلاي.</li>
+              <li><strong style="color:var(--gold)">Powergaming</strong> — فرض أفعال غير واقعية على الآخرين.</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <style>
+      .rule-item {
+        background: #16161c;
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 12px;
+        overflow: visible;
+        position: relative;
+        transition: border-color 0.35s cubic-bezier(0.4,0,0.2,1),
+                    box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                    transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        clip-path: none;
+      }
+      .rule-item::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 13px;
+        background: transparent;
+        box-shadow: 0 0 0px rgba(212,168,67,0);
+        transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .rule-item:hover::after {
+        box-shadow:
+          0 0 18px 4px rgba(212,168,67,0.18),
+          0 0 40px 8px rgba(212,168,67,0.10),
+          inset 0 0 20px 0px rgba(212,168,67,0.04);
+      }
+      .rule-item.open::after {
+        box-shadow:
+          0 0 22px 6px rgba(212,168,67,0.22),
+          0 0 55px 12px rgba(212,168,67,0.12),
+          inset 0 0 28px 0px rgba(212,168,67,0.06);
+      }
+      .rule-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(212,168,67,0.25);
+      }
+      .rule-item.open {
+        border-color: rgba(212,168,67,0.45);
+        transform: translateY(-2px);
+      }
+      .rule-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+        padding: 22px 28px;
+        background: #16161c;
+        border: none;
+        border-radius: 12px;
+        color: var(--text);
+        font-family: 'Cairo', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: right;
+        gap: 16px;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.2s ease, border-radius 0.35s ease;
+      }
+
+      .rule-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(212,168,67,0.08) 0%, #1c1c24 65%);
+        opacity: 0;
+        transition: opacity 0.15s ease-out;
+        pointer-events: none;
+      }
+
+      .rule-btn > span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .rule-btn:hover {
+        color: #fff;
+      }
+      .rule-btn:hover::before {
+        opacity: 1;
+      }
+      .rule-item.open .rule-btn {
+        color: #fff;
+        border-radius: 12px 12px 0 0;
+      }
+      .rule-item.open .rule-btn::before {
+        opacity: 1;
+        background: linear-gradient(135deg, #1e1e26 0%, #1a1a22 100%);
+      }
+      .rule-chevron {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: rgba(212,168,67,0.10);
+        border: 1px solid rgba(212,168,67,0.22);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--gold);
+        flex-shrink: 0;
+        transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
+      }
+      .rule-btn:hover .rule-chevron {
+        background: rgba(212,168,67,0.18);
+        border-color: rgba(212,168,67,0.4);
+        box-shadow: 0 0 12px rgba(212,168,67,0.25);
+      }
+      .rule-item.open .rule-chevron {
+        transform: rotate(180deg);
+        background: rgba(212,168,67,0.22);
+        border-color: rgba(212,168,67,0.5);
+        box-shadow: 0 0 16px rgba(212,168,67,0.3);
+      }
+      .rule-body {
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition: grid-template-rows 0.36s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.28s ease;
+      }
+      .rule-body-inner {
+        overflow: hidden;
+        padding: 0 28px 24px;
+      }
+      .rule-item.open .rule-body {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+      .rule-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .rule-list li {
+        font-size: 0.93rem;
+        color: var(--muted);
+        line-height: 1.75;
+        padding-right: 18px;
+        position: relative;
+      }
+      .rule-list li::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 10px;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.7;
+      }
+    </style>
+
+    <script>
+      function toggleRule(btn) {
+        const item = btn.closest('.rule-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.rule-item.open').forEach(el => el.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      }
+    </script>
+  </div> <!-- /#page-rules -->
+
+  <!-- ══ PAGE: SUPPORT ══ -->
+  <div id="page-support" class="page">
+    <section style="min-height:100vh;padding:calc(var(--nav-h) + 60px) 5% 100px;position:relative;overflow:hidden;">
+      <div class="bg-layer"></div>
+
+      <!-- سماعة دعم يسار أعلى -->
+      <svg style="position:absolute;top:10%;left:4%;width:180px;opacity:0.09;transform:rotate(-18deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+      </svg>
+      <!-- ترس يمين أعلى -->
+      <svg style="position:absolute;top:8%;right:5%;width:140px;opacity:0.08;transform:rotate(22deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <!-- رسالة يمين وسط -->
+      <svg style="position:absolute;top:45%;right:2%;width:100px;opacity:0.07;transform:rotate(10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <!-- مفتاح إنجليزي يسار أسفل -->
+      <svg style="position:absolute;bottom:12%;left:3%;width:120px;opacity:0.08;transform:rotate(-10deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+      <!-- علامة استفهام يمين أسفل -->
+      <svg style="position:absolute;bottom:18%;right:8%;width:90px;opacity:0.07;transform:rotate(15deg);" viewBox="0 0 24 24" fill="none" stroke="#d4a843" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/>
+      </svg>
+
+      <!-- ══ SUPPORT HEADER ══ -->
+      <div style="position:relative;z-index:2;text-align:center;margin-bottom:56px;">
+        <h1 style="font-size:clamp(2.2rem,5.5vw,4rem);font-weight:900;color:#fff;line-height:1.1;display:inline-flex;align-items:center;gap:16px;
+          font-family: 'Cairo', sans-serif;
+          text-shadow:0 0 25px rgba(255,255,255,0.3),0 0 70px rgba(255,255,255,0.1);">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+            style="filter:drop-shadow(0 0 10px rgba(212,168,67,0.6));flex-shrink:0;">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+          </svg>
+          الدعم الفني
+        </h1>
+      </div>
+
+      <!-- ══ SUPPORT OPTIONS ══ -->
+      <div class="cards-grid" style="max-width:1100px;margin:0 auto 70px;position:relative;z-index:2;">
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" style="fill: var(--gold); stroke: none;">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </div>
+          <h3>فتح تذكرة دعم</h3>
+          <p>افتح تيكت في ديسكورد وفريق الدعم هيتواصل معاك في أقرب وقت لحل مشكلتك.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </div>
+          <h3>الدعم الصوتي</h3>
+          <p>انتظر في روم Waiting حتي يتم سحبك الي روم لحل مشكلتك</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <h3>تواصل مع الإدارة</h3>
+          <p>لو الموضوع يخص شكوى أو مخالفة، اتصل بفريق الإدارة مباشرة عبر الديسكورد.</p>
+        </div>
+      </div>
+
+      <!-- ══ CTA ══ -->
+      <div style="position:relative;z-index:2;text-align:center;margin-top:56px;">
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://discord.gg/lerp" target="_blank" class="btn btn-discord">انضم للديسكورد<svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+        </div>
+      </div>
+
+    </section>
+  </div> <!-- /#page-support -->
+
+  <!-- PAGE: DISCORD PROFILE -->
+  <div id="page-profile" class="page">
+    <section class="profile-section">
+      <div class="bg-layer"></div>
+
+      <div class="profile-shell" id="profileContent">
+        <div class="profile-hero">
+          <div class="profile-avatar-ring">
+            <img id="profileAvatar" src="Logo/LE.png" alt="Discord avatar">
+          </div>
+
+          <div>
+            <div class="profile-kicker">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+              حساب Discord
+            </div>
+            <h1 class="profile-name" id="profileName">Discord User</h1>
+            <div class="profile-id">
+              <span>Discord ID: <b id="profileId">-</b></span>
+              <button class="copy-id-btn" id="copyDiscordId" type="button" title="نسخ ID">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+
+            <p class="profile-note" id="profileNote">حسابك داخل السيرفر، لكن تصريح الدخول غير مفعل حتى الآن.</p>
+            <div class="profile-actions">
+              <a class="btn btn-primary" href="https://discord.gg/Cwq7ydvTFr" target="_blank" rel="noopener">داخل سيرفر الديسكورد</a>
+              <a class="btn btn-ghost" href="#" id="refreshDiscordProfile">تحديث البيانات</a>
+              <a class="btn btn-ghost" href="#" id="logoutDiscord">تسجيل الخروج</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-panel">
+            <div class="profile-panel-label">نظرة عامة</div>
+            <h2 class="profile-panel-title">حالة الحساب</h2>
+
+            <div class="account-status-grid">
+              <div class="account-status-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                <span>حالة السيرفر</span>
+                <strong id="profileServerStatus">داخل السيرفر</strong>
+              </div>
+              <div class="account-status-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>تصريح الدخول</span>
+                <strong id="profileAuthStatus">غير مفعل</strong>
+              </div>
+              <div class="account-status-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+                <span>نوع الحساب</span>
+                <strong>Discord</strong>
+              </div>
+              <div class="account-status-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>آخر تحديث</span>
+                <strong id="profileUpdatedAt">-</strong>
+              </div>
+            </div>
+          </div>
+
+          <aside class="profile-panel">
+            <div class="profile-panel-label">اختصارات</div>
+            <h2 class="profile-panel-title">تنقل سريع</h2>
+            <div class="quick-links">
+              <a href="#" class="quick-link" data-page="rules"><span>مراجعة القوانين</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg></a>
+              <a href="#" class="quick-link" data-page="coming-soon"><span>صفحة التقديم</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a>
+              <a href="https://last-era.tebex.io/" target="_blank" rel="noopener" class="quick-link"><span>المتجر</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="profile-empty profile-hidden" id="profileLoginPrompt">
+        <h1>سجل دخولك بحساب Discord</h1>
+        <p>بعد تسجيل الدخول هيظهر اسمك وصورتك وDiscord ID وحالة حسابك داخل صفحة البروفايل.</p>
+        <a href="#" class="btn btn-primary" id="profileLoginBtn">تسجيل الدخول بالديسكورد</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+
+
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      /**
+       * navigateTo(pageId)
+       * ──────────────────
+       * Hides all .page divs, shows #page-{pageId},
+       * and syncs the active class on navbar links.
+       */
+      function navigateTo(pageId, smooth) {
+        // 1. Hide every page
+        document.querySelectorAll('.page').forEach(function (p) {
+          p.classList.remove('active');
+        });
+
+        // 2. Show the target page
+        var target = document.getElementById('page-' + pageId);
+        if (target) {
+          target.classList.add('active');
+          // Smooth scroll when triggered from the logo, instant otherwise
+          window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'instant' });
+        }
+
+        // 3. Update active class on navbar links
+        document.querySelectorAll('.navbar-links a[data-page]').forEach(function (link) {
+          if (link.dataset.page === pageId) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+
+      /**
+       * Attach click listeners to every element with data-page attribute.
+       * Uses event delegation on document so dynamically-added elements
+       * (e.g. cards rendered by JS) are also covered.
+       */
+      document.addEventListener('click', function (e) {
+        // Walk up the DOM in case the click landed on a child element
+        var el = e.target;
+        while (el && el !== document) {
+          if (el.dataset && el.dataset.page) {
+            e.preventDefault();
+            // If the click came from the navbar logo, animate the scroll
+            var isLogo = el.classList && el.classList.contains('navbar-logo');
+            navigateTo(el.dataset.page, isLogo);
+            return;
+          }
+          el = el.parentElement;
+        }
+      });
+
+      // On first load, make sure the URL hash or the default 'home' page is shown
+      (function init() {
+        // Honour ?page=xxx query param or just default to 'home'
+        var params = new URLSearchParams(window.location.search);
+        var startPage = params.get('page') || 'home';
+        navigateTo(startPage);
+      })();
+    })();
+  </script>
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- Discord OAuth login/profile -->
+  <script>
+    (function () {
+      const DISCORD_CLIENT_ID = '1507544246134116525';
+      const DISCORD_GUILD_ID = '1499886158954631378';
+      const DISCORD_REDIRECT_URI = '';
+      const DISCORD_AUTH_KEY = 'lastEraDiscordAuth';
+
+      const loginBtn = document.getElementById('loginBtn');
+      const profileLoginBtn = document.getElementById('profileLoginBtn');
+      const profileContent = document.getElementById('profileContent');
+      const profileLoginPrompt = document.getElementById('profileLoginPrompt');
+      const refreshBtn = document.getElementById('refreshDiscordProfile');
+      const logoutBtn = document.getElementById('logoutDiscord');
+      const copyBtn = document.getElementById('copyDiscordId');
+
+      function getRedirectUri() {
+        return DISCORD_REDIRECT_URI || (window.location.origin + window.location.pathname);
+      }
+
+      function getStoredAuth() {
+        try {
+          const auth = JSON.parse(localStorage.getItem(DISCORD_AUTH_KEY) || 'null');
+          if (!auth || !auth.accessToken || !auth.expiresAt) return null;
+          if (Date.now() > auth.expiresAt) {
+            localStorage.removeItem(DISCORD_AUTH_KEY);
+            return null;
+          }
+          return auth;
+        } catch (err) {
+          localStorage.removeItem(DISCORD_AUTH_KEY);
+          return null;
+        }
+      }
+
+      function saveAuth(auth) {
+        localStorage.setItem(DISCORD_AUTH_KEY, JSON.stringify(auth));
+      }
+
+      function startDiscordLogin() {
+        if (window.location.protocol === 'file:') {
+          alert('Dis Error by midoo.14');
+          return;
+        }
+
+        const state = crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
+        sessionStorage.setItem('discordOAuthState', state);
+
+        const params = new URLSearchParams({
+          client_id: DISCORD_CLIENT_ID,
+          redirect_uri: getRedirectUri(),
+          response_type: 'token',
+          scope: 'identify guilds',
+          state: state,
+          prompt: 'consent'
+        });
+
+        window.location.href = 'https://discord.com/oauth2/authorize?' + params.toString();
+      }
+
+      function activatePage(pageId) {
+        document.querySelectorAll('.page').forEach(function (page) {
+          page.classList.remove('active');
+        });
+
+        const target = document.getElementById('page-' + pageId);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('.navbar-links a[data-page]').forEach(function (link) {
+          link.classList.toggle('active', link.dataset.page === pageId);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+
+      function avatarUrl(user) {
+        if (!user || !user.avatar) return 'Logo/LE.png';
+        const extension = user.avatar.startsWith('a_') ? 'gif' : 'png';
+        return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${extension}?size=256`;
+      }
+
+      function formatDiscordName(user) {
+        if (!user) return 'Discord User';
+        return user.global_name || user.username || 'Discord User';
+      }
+
+      function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      }
+
+      function showLoggedOutProfile() {
+        if (profileContent) profileContent.classList.add('profile-hidden');
+        if (profileLoginPrompt) profileLoginPrompt.classList.remove('profile-hidden');
+      }
+
+      function showLoggedInProfile(auth) {
+        const user = auth && auth.user;
+        const guilds = auth && Array.isArray(auth.guilds) ? auth.guilds : [];
+        const isInGuild = DISCORD_GUILD_ID ? guilds.some(function (guild) { return guild.id === DISCORD_GUILD_ID; }) : null;
+
+        if (profileContent) profileContent.classList.remove('profile-hidden');
+        if (profileLoginPrompt) profileLoginPrompt.classList.add('profile-hidden');
+
+        const avatar = document.getElementById('profileAvatar');
+        if (avatar) avatar.src = avatarUrl(user);
+
+        setText('profileName', formatDiscordName(user));
+        setText('profileId', user && user.id ? user.id : '-');
+        setText('profileUpdatedAt', auth.fetchedAt ? new Date(auth.fetchedAt).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }) : '-');
+        setText('profileAuthStatus', 'مفعل');
+
+        if (isInGuild === true) {
+          setText('profileServerStatus', 'داخل السيرفر');
+          setText('profileNote', 'حسابك داخل السيرفر وتصريح الدخول مفعل.');
+        } else if (isInGuild === false) {
+          setText('profileServerStatus', 'خارج السيرفر');
+          setText('profileNote', 'سجلت دخولك بنجاح، لكن الحساب غير ظاهر داخل السيرفر.');
+        } else {
+          setText('profileServerStatus', 'غير مؤكد');
+          setText('profileNote', 'سجلت دخولك بنجاح. أضف Discord Guild ID في الكود لتفعيل فحص وجودك داخل السيرفر.');
+        }
+      }
+
+      function updateLoginButton(auth) {
+        if (!loginBtn) return;
+
+        if (auth && auth.user) {
+          loginBtn.textContent = formatDiscordName(auth.user);
+          loginBtn.dataset.page = 'profile';
+          loginBtn.href = '#';
+          loginBtn.title = 'عرض البروفايل';
+        } else {
+          loginBtn.textContent = 'تسجيل الدخول';
+          delete loginBtn.dataset.page;
+          loginBtn.href = '#';
+          loginBtn.title = '';
+        }
+      }
+
+      async function fetchDiscordProfile(accessToken) {
+        const userRes = await fetch('https://discord.com/api/users/@me', {
+          headers: { Authorization: 'Bearer ' + accessToken }
+        });
+        if (!userRes.ok) throw new Error('Failed to fetch Discord user');
+        const user = await userRes.json();
+
+        let guilds = [];
+        try {
+          const guildsRes = await fetch('https://discord.com/api/users/@me/guilds', {
+            headers: { Authorization: 'Bearer ' + accessToken }
+          });
+          if (guildsRes.ok) guilds = await guildsRes.json();
+        } catch (err) {
+          guilds = [];
+        }
+
+        return { user, guilds };
+      }
+
+      async function refreshDiscordProfile() {
+        const auth = getStoredAuth();
+        if (!auth) {
+          showLoggedOutProfile();
+          updateLoginButton(null);
+          return null;
+        }
+
+        try {
+          const profile = await fetchDiscordProfile(auth.accessToken);
+          const nextAuth = Object.assign({}, auth, profile, { fetchedAt: Date.now() });
+          saveAuth(nextAuth);
+          showLoggedInProfile(nextAuth);
+          updateLoginButton(nextAuth);
+          return nextAuth;
+        } catch (err) {
+          localStorage.removeItem(DISCORD_AUTH_KEY);
+          showLoggedOutProfile();
+          updateLoginButton(null);
+          return null;
+        }
+      }
+
+      async function handleOAuthReturn() {
+        if (!window.location.hash || !window.location.hash.includes('access_token=')) return false;
+
+        const params = new URLSearchParams(window.location.hash.slice(1));
+        const accessToken = params.get('access_token');
+        const expiresIn = Number(params.get('expires_in') || 0);
+        const returnedState = params.get('state');
+        const savedState = sessionStorage.getItem('discordOAuthState');
+
+        history.replaceState(null, '', getRedirectUri() + '?page=profile');
+        sessionStorage.removeItem('discordOAuthState');
+
+        if (!accessToken || !expiresIn || (savedState && returnedState !== savedState)) {
+          showLoggedOutProfile();
+          activatePage('profile');
+          return true;
+        }
+
+        const auth = {
+          accessToken: accessToken,
+          expiresAt: Date.now() + expiresIn * 1000,
+          fetchedAt: Date.now()
+        };
+
+        saveAuth(auth);
+        await refreshDiscordProfile();
+        activatePage('profile');
+        return true;
+      }
+
+      function logoutDiscord() {
+        localStorage.removeItem(DISCORD_AUTH_KEY);
+        showLoggedOutProfile();
+        updateLoginButton(null);
+        activatePage('profile');
+      }
+
+      [loginBtn, profileLoginBtn].forEach(function (btn) {
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+          const auth = getStoredAuth();
+          if (auth && btn === loginBtn) return;
+          e.preventDefault();
+          startDiscordLogin();
+        });
+      });
+
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          refreshDiscordProfile();
+        });
+      }
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          logoutDiscord();
+        });
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          const id = document.getElementById('profileId');
+          if (id && navigator.clipboard) navigator.clipboard.writeText(id.textContent);
+        });
+      }
+
+      (async function initDiscordAuth() {
+        const handledReturn = await handleOAuthReturn();
+        const auth = getStoredAuth();
+
+        if (auth) {
+          showLoggedInProfile(auth);
+          updateLoginButton(auth);
+        } else {
+          showLoggedOutProfile();
+          updateLoginButton(null);
+        }
+
+        if (!handledReturn && new URLSearchParams(window.location.search).get('page') === 'profile') {
+          activatePage('profile');
+        }
+      })();
+    })();
+  </script>
+
+  <!-- Video autoplay fallback for strict browsers -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var vid = document.querySelector('.video-bg video');
+      if (vid) {
+        vid.playbackRate = 1.4;
+        vid.play().catch(function () {
+          // Autoplay was prevented — video stays paused (muted autoplay is allowed on all modern browsers)
+        });
+      }
+    });
+  </script>
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- ══  KICK LIVESTREAM INTEGRATION SYSTEM                   ══ -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <script>
+    /*
+      ═══════════════════════════════════════════════════════════
+      HOW TO ADD / EDIT STREAMERS
+      ═══════════════════════════════════════════════════════════
+      Just add, remove or edit objects in the "streamers" array below.
+
+      - username : the streamer's Kick channel slug, EXACTLY as it
+                    appears in their channel URL: kick.com/<username>
+      - name     : the display name shown on the card
+      - image    : fallback profile picture shown before/while the
+                    Kick API responds (and used if the API call fails).
+                    If the Kick API returns a profile picture for the
+                    channel, it will automatically replace this image.
+
+      Example:
+        {
+          username: "aboel3bas",
+          name: "Aboel3bas",
+          image: "profile.jpg"
+        }
+      ═══════════════════════════════════════════════════════════
+    */
+    const streamers = [
+      {
+        username: "0mariooo",
+        name: "0mariooo",
+        image: "https://kick.com/favicon.ico"
+      },
+      {
+        username: "tribal-chief95",
+        name: "Tribal Chief95",
+        image: "https://kick.com/favicon.ico"
+      },
+      {
+        username: "saifra3d",
+        name: "Saifra3d",
+        image: "https://kick.com/favicon.ico"
+      },
+      {
+        username: "medo-gm",
+        name: "Medo GM",
+        image: "https://kick.com/favicon.ico"
+      },
+      {
+        username: "zhammeedo",
+        name: "Zhammeedo",
+        image: "https://kick.com/favicon.ico"
+      },
+      {
+        username: "g3edy",
+        name: "G3edy",
+        image: "https://kick.com/favicon.ico"
+      }
+    ];
+
+    // How often to re-check live status (in milliseconds). 30000 = 30 seconds.
+    const CHECK_INTERVAL = 30000;
+
+    const streamersGrid = document.getElementById('streamersGrid');
+    const creatorsCount = document.getElementById('creatorsCount');
+
+    let currentFilter = 'all';
+
+    /* ─────────────────────────────────────────────────────────
+       Build the streamer cards dynamically from the array above
+    ───────────────────────────────────────────────────────── */
+    function renderStreamerCards() {
+      streamersGrid.innerHTML = streamers.map(s => `
+        <div class="streamer-card" id="card-${s.username}">
+          <div class="streamer-kick-glow"></div>
+          <img src="Logo/Kick Logo.webp" alt="Kick" class="streamer-kick-logo" />
+          <div class="streamer-avatar-wrap">
+            <img
+              class="streamer-avatar"
+              id="avatar-${s.username}"
+              src="${s.image}"
+              alt="${s.name}"
+              onerror="this.onerror=null;this.src='Logo/Kick Logo.webp';this.classList.add('avatar-fallback');"
+            />
+            <span class="live-badge">LIVE</span>
+          </div>
+
+          <div class="streamer-name">${s.name}</div>
+
+          <div class="streamer-status" id="status-${s.username}">
+            <span class="status-dot"></span>
+            <span class="status-text">Offline</span>
+          </div>
+
+          <div class="streamer-followers" id="followers-${s.username}">
+            <svg class="followers-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span class="followers-text">-- Followers</span>
+          </div>
+
+          <a
+            href="https://kick.com/${s.username}"
+            target="_blank"
+            rel="noopener"
+            class="streamer-watch-btn offline-btn"
+            id="watch-${s.username}"
+          >Link<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
+        </div>
+      `).join('');
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Fetch a single channel's data from Kick's public API.
+       Kick's API sits behind Cloudflare and sometimes blocks
+       direct browser requests with CORS errors, so we try a
+       few endpoints in order and use whichever one succeeds.
+    ───────────────────────────────────────────────────────── */
+    async function fetchKickChannel(username) {
+      const targetUrl = `https://kick.com/api/v2/channels/${username}`;
+
+      const endpoints = [
+        targetUrl,
+        // CORS proxy fallbacks (used only if the direct request is blocked)
+        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`
+      ];
+
+      for (const url of endpoints) {
+        try {
+          const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (data) return data;
+        } catch (err) {
+          // try the next endpoint
+          continue;
+        }
+      }
+      return null;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Update one streamer card's UI based on Kick API response
+    ───────────────────────────────────────────────────────── */
+    function updateStreamerCard(streamer, data) {
+      const card        = document.getElementById(`card-${streamer.username}`);
+      const statusText  = card.querySelector('.status-text');
+      const followersEl = document.getElementById(`followers-${streamer.username}`);
+      const avatarEl    = document.getElementById(`avatar-${streamer.username}`);
+      const watchBtn    = document.getElementById(`watch-${streamer.username}`);
+
+      if (!data) {
+        card.classList.remove('is-live');
+        statusText.textContent = 'Offline';
+        applyFilter(currentFilter);
+        return;
+      }
+
+      // "livestream" is null when the channel is offline, and an
+      // object (with viewer count, title, etc.) when it's live.
+      const isLive = !!data.livestream;
+
+      const followers = data.followersCount ?? data.followers_count ?? 0;
+      const followersTextEl = followersEl.querySelector('.followers-text');
+      if (followersTextEl) {
+        followersTextEl.textContent = `${followers.toLocaleString('en-US')} Followers`;
+      } else {
+        followersEl.textContent = `${followers.toLocaleString('en-US')} Followers`;
+      }
+      followersEl.dataset.followers = followers;
+
+      const profilePic = data.user && data.user.profile_pic;
+      if (profilePic) {
+        avatarEl.src = profilePic;
+        avatarEl.classList.remove('avatar-fallback');
+      }
+
+      if (isLive) {
+        card.classList.add('is-live');
+        statusText.textContent = 'Live';
+        watchBtn.classList.remove('disabled');
+        watchBtn.classList.remove('offline-btn');
+        watchBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/></svg>مشاهدة البث';
+      } else {
+        card.classList.remove('is-live');
+        statusText.textContent = 'Offline';
+        watchBtn.classList.add('offline-btn');
+        watchBtn.innerHTML = 'Link<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+      }
+
+      applyFilter(currentFilter);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Check the live status of every streamer in the array
+    ───────────────────────────────────────────────────────── */
+    async function checkAllStreamers() {
+      for (const streamer of streamers) {
+        const data = await fetchKickChannel(streamer.username);
+        updateStreamerCard(streamer, data);
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Filter / sort the streamer grid based on the active tab
+    ───────────────────────────────────────────────────────── */
+    function sortLiveFirst() {
+      const cards = Array.from(streamersGrid.children).filter(el => el.classList.contains('streamer-card'));
+      cards
+        .sort((a, b) => {
+          const aLive = a.classList.contains('is-live') ? 1 : 0;
+          const bLive = b.classList.contains('is-live') ? 1 : 0;
+          return bLive - aLive;
+        })
+        .forEach(card => streamersGrid.appendChild(card));
+    }
+
+    function applyFilter(filter) {
+      currentFilter = filter;
+      const cards = Array.from(streamersGrid.children).filter(el => el.classList.contains('streamer-card'));
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const isLive = card.classList.contains('is-live');
+        let show = true;
+        if (filter === 'live') show = isLive;
+        if (filter === 'offline') show = !isLive;
+        card.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+
+      if (filter === 'popular') {
+        cards
+          .slice()
+          .sort((a, b) => {
+            const fa = Number(a.querySelector('.streamer-followers').dataset.followers) || 0;
+            const fb = Number(b.querySelector('.streamer-followers').dataset.followers) || 0;
+            return fb - fa;
+          })
+          .forEach(card => streamersGrid.appendChild(card));
+      } else {
+        sortLiveFirst();
+      }
+
+      // Toggle empty state message
+      let emptyMsg = streamersGrid.querySelector('.no-results');
+      if (visibleCount === 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('div');
+          emptyMsg.className = 'no-results';
+          streamersGrid.appendChild(emptyMsg);
+        }
+        emptyMsg.textContent = filter === 'live'
+          ? 'لا يوجد صناع محتوى يبثون الآن'
+          : 'لا توجد نتائج';
+      } else if (emptyMsg) {
+        emptyMsg.remove();
+      }
+    }
+
+    // Wire up the filter tab buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter);
+      });
+    });
+
+    // Build the cards, set the creators count, run an initial
+    // check, then keep checking every CHECK_INTERVAL (30 seconds).
+    creatorsCount.textContent = streamers.length;
+    renderStreamerCards();
+    checkAllStreamers();
+    setInterval(checkAllStreamers, CHECK_INTERVAL);
+
+    /* ─────────────────────────────────────────────────────────
+       Live Discord member count (hero stat).
+       Uses Discord's public invite endpoint (no auth/bot needed):
+       GET /api/v9/invites/<code>?with_counts=true
+       Falls back to the static "68+" already in the HTML if the
+       request fails for any reason (offline, CORS, rate limit...).
+    ───────────────────────────────────────────────────────── */
+    const DISCORD_INVITE_CODE = 'Cwq7ydvTFr';
+
+    async function updateDiscordMemberCount() {
+      const el = document.getElementById('discordMemberCount');
+      if (!el) return;
+      try {
+        const res = await fetch(`https://discord.com/api/v9/invites/${DISCORD_INVITE_CODE}?with_counts=true`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data.approximate_member_count === 'number') {
+          el.textContent = data.approximate_member_count.toLocaleString('en-US') + '+';
+        }
+      } catch (err) {
+        // Keep whatever value is already shown (static fallback).
+      }
+    }
+
+    updateDiscordMemberCount();
+    setInterval(updateDiscordMemberCount, 5 * 60 * 1000); // refresh every 5 minutes
+
+    // ═══════════════════════════════════════════════
+  </script>
+
+
+</body>
+</html>
