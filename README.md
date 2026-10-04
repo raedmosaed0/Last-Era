@@ -1,177 +1,75 @@
 # 🏙️ Last Era RP
 
-## 🌟 A Modern Arabic Roleplay Community
+<p align="center">
+  <img src="./LE.png" width="120" alt="Last Era RP">
+</p>
 
-**Last Era RP** is a modern Arabic roleplay community built around realism, organization, and an active player community.
+<h3 align="center">🌟 A Modern Arabic Roleplay Community</h3>
 
-**🌐 Website** • **💬 Discord** • **🛒 [Store](https://last-era.tebex.io/)**
+<p align="center">
+  A modern Arabic roleplay community focused on realism, organization, and an active player experience.
+</p>
+
+<p align="center">
+  🌐 Website • 💬 Discord • 🛒 <a href="https://last-era.tebex.io/">Store</a>
+</p>
 
 ---
 
-## ✨ About
+## ✨ Features
 
-**Last Era RP** is an Arabic roleplay experience designed to provide players with an organized and realistic environment.
-
-The website serves as the central hub for the community, providing access to:
-
-* 🏠 Community information
-* 📜 Server rules
-* 📝 Applications
-* 🎥 Content creators
+* 🎨 Modern dark & gold design
+* 📱 Fully responsive
+* 🎬 Cinematic video background
+* 🎥 Content creators & Kick integration
+* 🔴 Live / Offline streamer status
+* 👥 Discord community statistics
+* 📜 Rules & applications
 * 🛠️ Technical support
-* 🛒 Official store
-* 💬 Discord community
-* 🔐 Account login
+* 🛒 Tebex store integration
+* 🔐 User profile & login system
 
 ---
 
-## 🚀 Features
+## 🛠️ Tech Stack
 
-* 🎨 Modern dark UI with a gold visual identity
-* 📱 Fully responsive design
-* 🎬 Video background on the homepage
-* ⚡ Smooth page transitions
-* 🧭 SPA-style navigation
-* 🎥 Content creator section
-* 🔴 Live streamer status system
-* 👥 Discord member statistics
-* 🛒 Integrated Tebex store
-* 🛠️ Dedicated support section
-* 📜 Rules and application pages
-* 🔐 User login system
+<p align="center">
 
----
+<img src="https://skillicons.dev/icons?i=html,css,js,discord" />
 
-## 🛠️ Built With
+</p>
 
-### Frontend
+<p align="center">
 
-* HTML5
-* CSS3
-* JavaScript
-* SVG
-* Google Fonts
+<img src="https://img.shields.io/badge/Kick-53FC18?style=for-the-badge&logo=kick&logoColor=black">
+<img src="https://img.shields.io/badge/Tebex-18181B?style=for-the-badge&logoColor=white">
 
-### Integrations
-
-* Discord
-* Kick
-* Tebex
-* Dropbox
+</p>
 
 ---
 
 ## 🎨 Design
 
-The website uses a dark and premium visual style built around:
+Built with a **dark premium interface** featuring:
 
-* 🖤 Dark backgrounds
-* 🟨 Gold accents
-* ✨ Soft glowing effects
-* 🎬 Cinematic video backgrounds
-* 📦 Modern cards
-* 📱 Responsive layouts
-
-The main visual identity is based on dark charcoal tones with gold accents.
+`Dark UI` • `Gold Accents` • `Glass Cards` • `Glow Effects` • `Responsive Layout`
 
 ---
 
-## 📂 Project Structure
+## 📂 Structure
 
 ```text
-Last-Era-RP/
+Last-Era/
 ├── index.html
-├── Logo/
-│   └── LE.png
-├── Images/
-│   └── ...
+├── LE.png
 └── README.md
 ```
 
 ---
 
-## 📄 Main Pages
-
-| Page            | Description                                       |
-| --------------- | ------------------------------------------------- |
-| 🏠 Home         | Last Era RP introduction and community statistics |
-| 📜 Rules        | Server rules and regulations                      |
-| 📝 Applications | Server application system                         |
-| 🎥 Creators     | Featured content creators and streamers           |
-| 🛠️ Support     | Technical support                                 |
-| 🛒 Store        | Official Last Era store                           |
-| 👤 Profile      | User profile and account information              |
-
----
-
-## 🎥 Content Creators
-
-The website includes a dedicated section for Last Era content creators and Kick streamers.
-
-Creators can display:
-
-* Profile picture
-* Username
-* Follower count
-* Online / Offline status
-* Live indicator
-* Watch button
-
----
-
-## 🛒 Store
-
-The official Last Era store is powered by **Tebex**.
-
-**🛍️ Store:**
-https://last-era.tebex.io/
-
----
-
-## 📱 Responsive Design
-
-The website is designed for:
-
-* 💻 Desktop
-* 💻 Laptop
-* 📱 Mobile
-* 📲 Tablet
-
-The layout automatically adapts to different screen sizes.
-
----
-
-## 🔧 Installation
-
-Clone the repository:
-
-```bash
-git clone YOUR_REPOSITORY_URL
-```
-
-Open the project:
-
-```bash
-cd Last-Era-RP
-```
-
-Then open:
-
-```text
-index.html
-```
-
-in your browser.
-
-No build system is required for the basic frontend.
-
----
-
-## 📌 Project Status
+## 🚀 Status
 
 🟢 **Active Development**
-
-New features, improvements, integrations, and community systems may be added over time.
 
 ---
 
@@ -179,6 +77,6 @@ New features, improvements, integrations, and community systems may be added ove
 
 > **A new era. A new story. Your choice.**
 
----
-
-**Made for the Last Era RP community.**
+<p align="center">
+  Made for the Last Era RP community.
+</p>
