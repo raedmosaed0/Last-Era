@@ -1,13 +1,18 @@
 # 🏙️ Last Era RP
 
 <p align="center">
-  <img src="./LE.png" width="120" alt="Last Era RP">
+  <img src="./LE.png" width="140" alt="Last Era RP">
 </p>
 
-<h3 align="center">🌟 A Modern Arabic Roleplay Community</h3>
+<h1 align="center">Last Era RP</h1>
 
 <p align="center">
-  A modern Arabic roleplay community focused on realism, organization, and an active player experience.
+  <strong>🌟 A Modern Arabic Roleplay Community</strong>
+</p>
+
+<p align="center">
+  A modern Arabic roleplay experience built around realism, immersion,
+  community, and a new generation of roleplay.
 </p>
 
 <p align="center">
@@ -16,47 +21,46 @@
 
 ---
 
+## 🎮 About
+
+**Last Era RP** is an Arabic roleplay community focused on creating an immersive and organized experience for players and content creators.
+
+The project combines a modern visual identity with community systems, live integrations, applications, support, and a dedicated player experience.
+
+---
+
 ## ✨ Features
 
-* 🎨 Modern dark & gold design
-* 📱 Fully responsive
-* 🎬 Cinematic video background
-* 🎥 Content creators & Kick integration
-* 🔴 Live / Offline streamer status
-* 👥 Discord community statistics
-* 📜 Rules & applications
-* 🛠️ Technical support
-* 🛒 Tebex store integration
-* 🔐 User profile & login system
+- 🎨 Modern dark & gold interface
+- 📱 Fully responsive design
+- 🎬 Cinematic video backgrounds
+- 🎥 Content creator & Kick integration
+- 🔴 Live / Offline streamer status
+- 👥 Discord community statistics
+- 📜 Rules & applications system
+- 🛠️ Technical support
+- 🛒 Tebex store integration
+- 🔐 User profiles & authentication
 
 ---
 
 ## 🛠️ Tech Stack
 
-<p align="center">
+**Languages & Technologies**
 
-<img src="https://skillicons.dev/icons?i=html,css,js,discord" />
-
-</p>
-
-<p align="center">
-
-<img src="https://img.shields.io/badge/Kick-53FC18?style=for-the-badge&logo=kick&logoColor=black">
-<img src="https://img.shields.io/badge/Tebex-18181B?style=for-the-badge&logoColor=white">
-
-</p>
+`HTML` • `CSS` • `JavaScript` • `Discord.js` • `Kick API` • `Tebex`
 
 ---
 
 ## 🎨 Design
 
-Built with a **dark premium interface** featuring:
+The interface is designed around a premium and immersive visual style:
 
-`Dark UI` • `Gold Accents` • `Glass Cards` • `Glow Effects` • `Responsive Layout`
+`Dark UI` • `Gold Accents` • `Glassmorphism` • `Glow Effects` • `Smooth Animations` • `Responsive Design`
 
 ---
 
-## 📂 Structure
+## 📂 Project Structure
 
 ```text
 Last-Era/
@@ -65,18 +69,10 @@ Last-Era/
 └── README.md
 ```
 
----
+## </> Developers
 
-## 🚀 Status
-
-🟢 **Active Development**
+**Developed by [Raed Mosaed](https://github.com/raedmosaed0) & [Ahmed Tarek](https://github.com/midotarek14)**
 
 ---
 
-## 👑 Last Era RP
-
-> **A new era. A new story. Your choice.**
-
-<p align="center">
-  Made for the Last Era RP community.
-</p>
+© 2026 Last Era RP. All rights reserved.
