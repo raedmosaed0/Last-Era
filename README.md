@@ -1,26 +1,16 @@
-<p align="center">
+<<p align="center">
   <img src="./Banner.png" width="70%" alt="Last Era RP Banner">
 </p>
 
-# Last Era RP
-
-<p align="center">
-  <strong>Arabic Roleplay. Reimagined.</strong>
-</p>
-
-<p align="center">
-  A modern Arabic roleplay community built around immersive gameplay,
-  creators, and a connected player experience.
-</p>
-
----
+<h1 align="center">
+  <strong>LAST ERA RP — OFFICIAL WEBSITE</strong>
+</h1>
 
 ## 🎮 About
 
-**Last Era RP** is a modern Arabic roleplay project focused on delivering an immersive, organized, and community-driven experience.
+**Last Era RP** is a modern Arabic roleplay world built around realism, immersive storytelling, and a connected community.
 
-The project brings together roleplay systems, creator integrations, community features, and a modern interface designed to give players a complete and engaging experience.
-
+Experience a living city where players create their own stories, creators shape memorable moments, and every detail is designed to deliver a more organized and engaging roleplay experience.
 
 ## ✨ Features
 
