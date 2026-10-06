@@ -104,10 +104,15 @@ Last-Era/
 
 ---
 
+---
+
 ## </> Developers
 
 **Developed by [Raed Mosaed](https://github.com/raedmosaed0) & [Ahmed Tarek](https://github.com/midotarek14)**
 
 ---
-
-© 2026 Last Era RP. All rights reserved.
+<p align="left">
+  <img src="lE.png" width="60" alt="Last Era RP Logo" align="middle">
+  &nbsp;&nbsp;
+  © 2026 Last Era RP. All rights reserved.
+</p>
