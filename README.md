@@ -65,8 +65,10 @@ The interface is designed around a premium and immersive visual style:
 ```text
 Last-Era/
 ├── index.html
-├── LE.png
-└── README.md
+├── style.css
+├── script.js
+├── README.md
+└── Images/
 ```
 
 ## </> Developers
