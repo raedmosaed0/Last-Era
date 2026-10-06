@@ -1,4 +1,4 @@
-# 🏙️ Last Era RP
+# Last Era RP
 
 <p align="center">
   <img src="./LE.png" width="140" alt="Last Era RP">
@@ -7,7 +7,7 @@
 <h1 align="center">Last Era RP</h1>
 
 <p align="center">
-  <strong>🌟 A Modern Arabic Roleplay Community</strong>
+  <strong>A Modern Arabic Roleplay Community</strong>
 </p>
 
 <p align="center">
@@ -31,32 +31,55 @@ The project combines a modern visual identity with community systems, live integ
 
 ## ✨ Features
 
-- 🎨 Modern dark & gold interface
-- 📱 Fully responsive design
-- 🎬 Cinematic video backgrounds
-- 🎥 Content creator & Kick integration
-- 🔴 Live / Offline streamer status
-- 👥 Discord community statistics
-- 📜 Rules & applications system
-- 🛠️ Technical support
-- 🛒 Tebex store integration
-- 🔐 User profiles & authentication
+- Modern dark & gold interface
+- Fully responsive design
+- Cinematic video backgrounds
+- Content creator & Kick integration
+- Live / Offline streamer status
+- Discord community statistics
+- Rules & applications system
+- Technical support
+- Tebex store integration
+- User profiles & authentication
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Languages & Technologies**
-
-`HTML` • `CSS` • `JavaScript` • `Discord.js` • `Kick API` • `Tebex`
+`HTML5`  
+`CSS3`  
+`JavaScript`  
+`Kick API`  
+`Discord.js`  
+`Tebex`
 
 ---
 
 ## 🎨 Design
 
-The interface is designed around a premium and immersive visual style:
+`Dark UI`  
+`Gold Accents`  
+`Cinematic Visuals`  
+`Glassmorphism`  
+`Glow Effects`  
+`Smooth Animations`  
+`Responsive Design`
 
-`Dark UI` • `Gold Accents` • `Glassmorphism` • `Glow Effects` • `Smooth Animations` • `Responsive Design`
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="./Images/homepage.png" width="90%" alt="Last Era RP Homepage">
+</p>
+
+<p align="center">
+  <img src="./Images/rules.png" width="90%" alt="Last Era RP Rules">
+</p>
+
+<p align="center">
+  <img src="./Images/creators.png" width="90%" alt="Last Era RP Creators">
+</p>
 
 ---
 
@@ -68,8 +91,14 @@ Last-Era/
 ├── style.css
 ├── script.js
 ├── README.md
+├── LE.png
 └── Images/
+    ├── homepage.png
+    ├── rules.png
+    └── creators.png
 ```
+
+---
 
 ## </> Developers
 
