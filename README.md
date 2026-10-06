@@ -100,6 +100,7 @@ Last-Era/
 **Developed by [Raed Mosaed](https://github.com/raedmosaed0) & [Ahmed Tarek](https://github.com/midotarek14)**
 
 ---
+
 <p align="left">
   <img src="./LE.png" width="92" alt="Last Era RP Logo" align="middle"> © 2026 Last Era RP. All rights reserved.
 </p>
