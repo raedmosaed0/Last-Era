@@ -1,31 +1,25 @@
+<p align="center">
+  <img src="./Banner.webp" width="100%" alt="Last Era RP Banner">
+</p>
+
 # Last Era RP
 
 <p align="center">
-  <img src="./LE.png" width="140" alt="Last Era RP">
-</p>
-
-<h1 align="center">Last Era RP</h1>
-
-<p align="center">
-  <strong>A Modern Arabic Roleplay Community</strong>
+  <strong>Arabic Roleplay. Reimagined.</strong>
 </p>
 
 <p align="center">
-  A modern Arabic roleplay experience built around realism, immersion,
-  community, and a new generation of roleplay.
-</p>
-
-<p align="center">
-  🌐 Website • 💬 Discord • 🛒 <a href="https://last-era.tebex.io/">Store</a>
+  A modern Arabic roleplay community built around immersive gameplay,
+  creators, and a connected player experience.
 </p>
 
 ---
 
 ## 🎮 About
 
-**Last Era RP** is an Arabic roleplay community focused on creating an immersive and organized experience for players and content creators.
+**Last Era RP** is a modern Arabic roleplay project focused on delivering an immersive, organized, and community-driven experience.
 
-The project combines a modern visual identity with community systems, live integrations, applications, support, and a dedicated player experience.
+The project brings together roleplay systems, creator integrations, community features, and a modern interface designed to give players a complete and engaging experience.
 
 ---
 
@@ -39,7 +33,6 @@ The project combines a modern visual identity with community systems, live integ
 - Discord community statistics
 - Rules & applications system
 - Technical support
-- Tebex store integration
 - User profiles & authentication
 
 ---
@@ -50,8 +43,7 @@ The project combines a modern visual identity with community systems, live integ
 `CSS3`  
 `JavaScript`  
 `Kick API`  
-`Discord.js`  
-`Tebex`
+`Discord.js`
 
 ---
 
@@ -67,18 +59,18 @@ The project combines a modern visual identity with community systems, live integ
 
 ---
 
-## 📸 Screenshots
+## 📸 Website Preview
 
 <p align="center">
-  <img src="./Images/homepage.png" width="90%" alt="Last Era RP Homepage">
+  <img src="./homepage.png" width="90%" alt="Last Era RP Homepage">
 </p>
 
 <p align="center">
-  <img src="./Images/rules.png" width="90%" alt="Last Era RP Rules">
+  <img src="./rules.png" width="90%" alt="Last Era RP Rules">
 </p>
 
 <p align="center">
-  <img src="./Images/creators.png" width="90%" alt="Last Era RP Creators">
+  <img src="./creators.png" width="90%" alt="Last Era RP Creators">
 </p>
 
 ---
@@ -87,16 +79,28 @@ The project combines a modern visual identity with community systems, live integ
 
 ```text
 Last-Era/
+├── Banner.webp
+├── banner2.webp
+├── LE.png
+├── logo.webp
 ├── index.html
 ├── style.css
 ├── script.js
 ├── README.md
-├── LE.png
-└── Images/
-    ├── homepage.png
-    ├── rules.png
-    └── creators.png
+├── homepage.png
+├── rules.png
+└── creators.png
 ```
+
+---
+
+## 🌐 Live Website
+
+<p align="left">
+  <a href="https://last-era.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Website-Visit%20Website-D4AF37?style=for-the-badge&labelColor=111111" alt="Live Website">
+  </a>
+</p>
 
 ---
 
