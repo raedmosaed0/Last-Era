@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">
-  <strong>LAST ERA RP — OFFICIAL WEBSITE</strong>
+  <strong>Last Era RP - Official Website</strong>
 </h1>
 
 ## 🎮 About
