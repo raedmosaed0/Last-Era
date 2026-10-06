@@ -63,10 +63,8 @@ Experience a living city where players create their own stories, creators shape 
 
 ```text
 Last-Era/
-├── Banner.webp
-├── banner2.webp
+├── Banner.png
 ├── LE.png
-├── logo.webp
 ├── index.html
 ├── style.css
 ├── script.js
