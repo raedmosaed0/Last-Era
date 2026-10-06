@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./Banner.webp" width="100%" alt="Last Era RP Banner">
+  <img src="./Banner.png" width="70%" alt="Last Era RP Banner">
 </p>
 
 # Last Era RP
