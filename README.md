@@ -21,7 +21,6 @@
 
 The project brings together roleplay systems, creator integrations, community features, and a modern interface designed to give players a complete and engaging experience.
 
----
 
 ## ✨ Features
 
@@ -35,7 +34,6 @@ The project brings together roleplay systems, creator integrations, community fe
 - Technical support
 - User profiles & authentication
 
----
 
 ## 🛠️ Tech Stack
 
@@ -44,8 +42,6 @@ The project brings together roleplay systems, creator integrations, community fe
 `JavaScript`  
 `Kick API`  
 `Discord.js`
-
----
 
 ## 🎨 Design
 
@@ -57,7 +53,6 @@ The project brings together roleplay systems, creator integrations, community fe
 `Smooth Animations`  
 `Responsive Design`
 
----
 
 ## 📸 Website Preview
 
@@ -73,7 +68,6 @@ The project brings together roleplay systems, creator integrations, community fe
   <img src="./creators.png" width="90%" alt="Last Era RP Creators">
 </p>
 
----
 
 ## 📂 Project Structure
 
@@ -92,8 +86,6 @@ Last-Era/
 └── creators.png
 ```
 
----
-
 ## 🌐 Live Website
 
 <p align="left">
@@ -102,9 +94,6 @@ Last-Era/
   </a>
 </p>
 
----
-
----
 
 ## </> Developers
 
@@ -112,7 +101,5 @@ Last-Era/
 
 ---
 <p align="left">
-  <img src="lE.png" width="60" alt="Last Era RP Logo" align="middle">
-  &nbsp;&nbsp;
-  © 2026 Last Era RP. All rights reserved.
+  <img src="./LE.png" width="92" alt="Last Era RP Logo" align="middle"> © 2026 Last Era RP. All rights reserved.
 </p>
